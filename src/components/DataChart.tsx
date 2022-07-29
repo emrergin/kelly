@@ -36,7 +36,7 @@ export const options = {
 };
 
 const DataChart = ({ datatoChart }: { datatoChart: number[][] }) => {
-  console.log(datatoChart);
+  // console.log(datatoChart);
   const labels = datatoChart.map((a, index) => index + 1);
   const w1 = datatoChart.map((a) => a[0]);
   const w2 = datatoChart.map((a) => a[1]);
@@ -60,7 +60,7 @@ const DataChart = ({ datatoChart }: { datatoChart: number[][] }) => {
   };
 
   return (
-    <div className="self-center chart">
+    <div className="chart mt-5">
       {/* wch80 */}
       <Line options={options} data={data} />
     </div>

@@ -12,6 +12,8 @@ cd dist
 # if you are deploying to a custom domain
 # echo 'www.example.com' > CNAME
 
+# Should have the following two lines for first commit.
+# Also don't forget the base option in vite config.
 # git init
 # git checkout -b main
 git add -A

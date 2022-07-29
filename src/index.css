@@ -15,3 +15,7 @@
   /* outline: 2px solid red; */
   box-sizing: border-box;
 }
+
+.ReactModal__Overlay {
+  z-index: 30;
+}

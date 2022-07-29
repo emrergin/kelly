@@ -1,24 +1,26 @@
 import { useState } from "react";
 import ChanceBar from "./components/ChanceBar";
-import InvestBar from "./components/InvestBar";
+import InvestBox from "./components/InvestBox";
 import DataChart from "./components/DataChart";
+import ConfigModal from "./components/ConfigModal";
 
 function App() {
-  // const [ratio, setRatio] = useState(50);
-  const ratioToWin = 50;
-  const multiplier = 2;
-  const optimalRatio = ratioToWin - (100 - ratioToWin) / multiplier;
+  const [ratioToWin, setRatioToWin] = useState(50);
+  const [multiplier, setMultiplier] = useState(2);
+  let optimalRatio = ratioToWin - (100 - ratioToWin) / multiplier;
   const [result, setResult] = useState(50);
   const [wealth, setWealth] = useState(100);
   const [oWealth, setOWealth] = useState(100);
+
   const [invRatio, setInvRatio] = useState(0);
   const [chartData, setChartData] = useState([[wealth, oWealth]]);
 
   const calculateRound = (): void => {
-    setResult(Math.floor(Math.random() * 100) + 1);
-    setInvRatio(0);
+    
+    let newResult = Math.floor(Math.random() * 100) + 1;
+    setResult(newResult);
     let newWealth: number, newOptimalWealth: number;
-    if (result > 100 - ratioToWin) {
+    if (newResult > 100 - ratioToWin) {
       newWealth = calculateLosing(invRatio, wealth);
       newOptimalWealth = calculateLosing(optimalRatio, oWealth);
     } else {
@@ -27,7 +29,9 @@ function App() {
     }
     setWealth(newWealth);
     setOWealth(newOptimalWealth);
+    console.log(newResult,ratioToWin,'wealth:',wealth,newWealth,'optimal',oWealth,newOptimalWealth,optimalRatio);
     setChartData([...chartData, [newWealth, newOptimalWealth]]);
+    setInvRatio(0);
 
     function calculateWinning(ratio: number, wealth: number) {
       return Math.round(wealth + (multiplier * wealth * ratio) / 100);
@@ -38,46 +42,56 @@ function App() {
     }
   };
 
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal(): void {
+    setIsOpen(true);
+  }
+
+  function closeModal(): void {
+    setIsOpen(false);
+  }
+
+  function restartWithNewParameters(
+    e: React.MouseEvent<HTMLButtonElement>,
+    inputRatio: HTMLInputElement,
+    inputOdds: HTMLInputElement
+  ): void {
+    e.preventDefault();
+    setRatioToWin(Number(inputRatio.value));
+    setResult(50);
+    setWealth(100);
+    setOWealth(100);
+    setInvRatio(0);
+    setChartData([[100, 100]]);
+    setMultiplier(Number(inputOdds.value));
+    optimalRatio = ratioToWin - (100 - ratioToWin) / multiplier;
+    setIsOpen(false);
+  }
+
   return (
     <div className="App flex flex-wrap gap-8 p2 main-container justify-center my-0 mx-auto text-center">
+      <ConfigModal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        restartWithNewParameters={restartWithNewParameters}
+      />
       <div className="mt-5 items-center flex flex-col">
-        <ChanceBar ratio={100 - ratioToWin} result={result} />
-        <input
-          type="range"
-          min="0"
-          max="100"
-          className="mt-10"
-          value={invRatio}
-          onChange={(e) => setInvRatio(Number(e.target.value))}
-          disabled={wealth > 0 ? false : true}
+        <ChanceBar ratio={ratioToWin} result={result} />
+        <InvestBox
+          invRatio={invRatio}
+          wealth={wealth}
+          multiplier={multiplier}
+          setInvRatio={setInvRatio}
+          calculateRound={calculateRound}
         />
-        <div className="mt-5 wmax-ch60">
-          If the arrow is in red, the investment is lost. If the arrow is in
-          green, the investment is multipled by {multiplier + 1}.
-        </div>
-        <div className="flex mt-10 items-end">
-          <div className="mr-5 w-1/3">
-            <h3 className="font-semibold ">Wealth not Invested</h3>
-            <p className="mt-5">
-              {Math.round((wealth * (100 - invRatio)) / 100)}
-            </p>
-            <InvestBar ratio={100 - invRatio} />
-          </div>
-          <button
-            className="btn w-1/3 self-center"
-            onClick={calculateRound}
-            disabled={wealth > 0 ? false : true}
-          >
-            Invest!
-          </button>
-          <div className="ml-5 w-1/3">
-            <h3 className="font-semibold">Wealth Invested</h3>
-            <p className="mt-5">{Math.round((wealth * invRatio) / 100)}</p>
-            <InvestBar ratio={invRatio} />
-          </div>
-        </div>
       </div>
-      <DataChart datatoChart={chartData} />
+      <div className="self-center">
+        <button className="btn" onClick={openModal}>
+          Config
+        </button>
+        <DataChart datatoChart={chartData} />
+      </div>
     </div>
   );
 }
