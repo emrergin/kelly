@@ -19,3 +19,10 @@
 .ReactModal__Overlay {
   z-index: 30;
 }
+
+input:invalid {
+  background-color: ivory;
+  border: none;
+  outline: 2px solid red;
+}
+

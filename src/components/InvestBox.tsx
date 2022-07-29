@@ -28,7 +28,7 @@ const InvestBox = ({
       />
       <div className="mt-5 wmax-ch60">
         If the arrow is in red, the investment is lost. If the arrow is in
-        green, the investment is multipled by {multiplier + 1}.
+        green, the investment is multiplied by {multiplier + 1}.
       </div>
       <div className="flex mt-10 items-end">
         <div className="mr-5 w-1/3">

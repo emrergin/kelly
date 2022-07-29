@@ -6,6 +6,8 @@ interface Props {
     inputRatio: HTMLInputElement,
     inputOdds: HTMLInputElement
   ) => void;
+  currentOdds: number;
+  currentRatio: number;
 }
 
 import Modal from "react-modal";
@@ -28,6 +30,8 @@ const ConfigModal = ({
   modalIsOpen,
   closeModal,
   restartWithNewParameters,
+  currentOdds,
+  currentRatio
 }: Props) => {
   let inputRatio: HTMLInputElement;
   let inputOdds: HTMLInputElement;
@@ -52,9 +56,10 @@ const ConfigModal = ({
               name="ratio"
               min="1"
               max="100"
+              size={3}
+              defaultValue={currentRatio}
               ref={(_input1) => (inputRatio = _input1 as HTMLInputElement)}
             />
-            <button className="btn">Change probability</button>
           </div>
           <div className="flex mt-5 items-baseline gap-4">
             <label htmlFor="odds">Choose odds (x to 1) of the bet:</label>
@@ -63,12 +68,13 @@ const ConfigModal = ({
               id="odds"
               name="odds"
               min="1"
+              size={5}
+              defaultValue={currentOdds}
               ref={(_input2) => (inputOdds = _input2 as HTMLInputElement)}
             />
-            <button className="btn">Change odds</button>
           </div>
           <button
-            className="btn self-center"
+            className="btn self-center mt-5"
             onClick={(event) =>
               restartWithNewParameters(event, inputRatio, inputOdds)
             }

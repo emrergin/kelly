@@ -20,7 +20,7 @@ function App() {
     let newResult = Math.floor(Math.random() * 100) + 1;
     setResult(newResult);
     let newWealth: number, newOptimalWealth: number;
-    if (newResult > 100 - ratioToWin) {
+    if (newResult > ratioToWin) {
       newWealth = calculateLosing(invRatio, wealth);
       newOptimalWealth = calculateLosing(optimalRatio, oWealth);
     } else {
@@ -58,13 +58,18 @@ function App() {
     inputOdds: HTMLInputElement
   ): void {
     e.preventDefault();
+    inputRatio.reportValidity();
+    inputOdds.reportValidity();
+    if (!inputRatio.checkValidity() || !inputOdds.checkValidity()){
+      return;
+    }
     setRatioToWin(Number(inputRatio.value));
+    setMultiplier(Number(inputOdds.value));
     setResult(50);
     setWealth(100);
     setOWealth(100);
     setInvRatio(0);
     setChartData([[100, 100]]);
-    setMultiplier(Number(inputOdds.value));
     optimalRatio = ratioToWin - (100 - ratioToWin) / multiplier;
     setIsOpen(false);
   }
@@ -75,9 +80,11 @@ function App() {
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
         restartWithNewParameters={restartWithNewParameters}
+        currentOdds={multiplier}
+        currentRatio={ratioToWin}
       />
       <div className="mt-5 items-center flex flex-col">
-        <ChanceBar ratio={ratioToWin} result={result} />
+        <ChanceBar ratio={100-ratioToWin} result={result} />
         <InvestBox
           invRatio={invRatio}
           wealth={wealth}
