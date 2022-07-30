@@ -4,6 +4,8 @@ Test whether your risk taking is optimal for the long run. Also includes the opt
 
 Uses **Typescript**, **React**, **Chart.js** and **unocss**. Uses **Vite** for building and development.
 
+Live here: https://emrergin.github.io/kelly/.
+
 
 ### What I learned
 - ```setParameter(5)
