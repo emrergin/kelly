@@ -11,4 +11,4 @@ Live here: https://emrergin.github.io/kelly/.
 - ```setParameter(5)
     console.log(parameter)```
 
-    may not always log $5$, since state parameters are only set at the beginning of the next render.
+may not always log $5$, since state parameters are only set at the beginning of the next render.
