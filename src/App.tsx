@@ -75,7 +75,7 @@ function App() {
   }
 
   return (
-    <div className="App flex flex-wrap gap-8 p2 main-container justify-center my-0 mx-auto text-center max-w-full">
+    <div className="App flex flex-wrap gap-8 p2 main-container justify-center my-0 mx-auto text-center">
       <ConfigModal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
