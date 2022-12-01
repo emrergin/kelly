@@ -15,6 +15,7 @@ function App() {
   const [invRatio, setInvRatio] = useState(0);
   const [chartData, setChartData] = useState([[wealth, oWealth]]);
 
+
   const calculateRound = (): void => {
     
     let newResult = Math.floor(Math.random() * 100) + 1;

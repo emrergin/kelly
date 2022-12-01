@@ -1,8 +1,9 @@
 // @ts-nocheck
 
-import { defineConfig } from "vite";
+import { defineConfig  } from "vite";
 import react from "@vitejs/plugin-react";
 import Unocss from "unocss/vite";
+import { viteSingleFile } from "vite-plugin-singlefile"
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -27,5 +28,6 @@ export default defineConfig({
         ...Array.from({ length: 100 }, (_, i) => `leftp-${i + 1}`),
       ],
     }),
+    // viteSingleFile()
   ],
 });
